@@ -1,3 +1,6 @@
+import numpy as np
+from scipy.integrate import quad
+
 def calculate_r_s(r, h): #Effective Shearing Radius
   return r+0.5*h
 
