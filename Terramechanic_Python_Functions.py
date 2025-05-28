@@ -43,7 +43,7 @@ def compute_w(params): #Vertical Load on the Wheel
     p = params.get_all_params()
     p['r_s'] = calculate_r_s(p['r'], p['h'])
 
-    i_value = calculate_i(p['v'], p['r'], p['omega'])
+    i_value = calculate_i(p['v'], p['r_s'], p['omega'])
     n_value = calculate_n(p['n0'], p['n1'], i_value)
     theta_m_value = calculate_theta_m(p['a1'], p['a2'], i_value, p['theta_1'])
 
@@ -63,7 +63,7 @@ def compute_d(params): #Drawbar Pull Force
     p = params.get_all_params()
     p['r_s'] = calculate_r_s(p['r'], p['h'])
 
-    i_value = calculate_i(p['v'], p['r'], p['omega'])
+    i_value = calculate_i(p['v'], p['r_s'], p['omega'])
     n_value = calculate_n(p['n0'], p['n1'], i_value)
     theta_m_value = calculate_theta_m(p['a1'], p['a2'], i_value, p['theta_1'])
 
@@ -83,7 +83,7 @@ def compute_t(params): #Resistive Moment on the Wheel
     p = params.get_all_params()
     p['r_s'] = calculate_r_s(p['r'], p['h'])
 
-    i_value = calculate_i(p['v'], p['r'], p['omega'])
+    i_value = calculate_i(p['v'], p['r_s'], p['omega'])
     n_value = calculate_n(p['n0'], p['n1'], i_value)
     theta_m_value = calculate_theta_m(p['a1'], p['a2'], i_value, p['theta_1'])
 
