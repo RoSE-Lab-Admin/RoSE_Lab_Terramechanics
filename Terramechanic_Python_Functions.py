@@ -48,12 +48,14 @@ def compute_w(params): #Vertical Load on the Wheel
     theta_m_value = calculate_theta_m(p['a1'], p['a2'], i_value, p['theta_1'])
 
     try:
-        integral1 = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'], p['b'], p['k_phi_prime'], p['r'], n_value, p['theta_1'], theta_m_value, p['theta_2']) * np.cos(theta),
-                         theta_m_value, p['theta_1'])[0]
-        integral2 = quad(lambda theta: tau(theta, tau_max(p['c'], theta, p['phi'], sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'], p['b'], p['k_phi_prime'], p['r'], n_value, p['theta_1'], theta_m_value, p['theta_2'])),
-                                           j(p['r_s'], p['theta_1'], theta, i_value), p['k']) * np.sin(theta), p['theta_2'], theta_m_value)[0]
+        # ---  integrate σ(θ) · cosθ ---
+        integral_sigma_cos = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2']) * np.cos(th),p['theta_2'], p['theta_1'])[0]
 
-        W = p['r'] * p['b'] * (integral1 + integral2)
+        # --- integrate τ(θ) · sinθ  ---
+        integral_tau_sin = quad(lambda theta: tau(theta,tau_max(p['c'], th, p['phi'],sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2'])),j(p['r_s'], p['theta_1'], th, i_value),p['k']) * np.sin(theta),p['theta_2'], p['theta_1'])[0]
+
+        # --- Assemble F_W ---
+        W = p['b'] * (p['r'] * integral_sigma_cos + p['r_s'] * integral_tau_sin)
         return W
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -68,12 +70,13 @@ def compute_d(params): #Drawbar Pull Force
     theta_m_value = calculate_theta_m(p['a1'], p['a2'], i_value, p['theta_1'])
 
     try:
-        integral1 = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'], p['b'], p['k_phi_prime'], p['r'], n_value, p['theta_1'], theta_m_value, p['theta_2']) * np.sin(theta),
-                         theta_m_value, p['theta_1'])[0]
-        integral2 = quad(lambda theta: tau(theta, tau_max(p['c'], theta, p['phi'], sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'], p['b'], p['k_phi_prime'], p['r'], n_value, p['theta_1'], theta_m_value, p['theta_2'])),
-                                           j(p['r_s'], p['theta_1'], theta, i_value), p['k']) * np.cos(theta), p['theta_2'], theta_m_value)[0]
+        # integrate τ(θ)·cosθ
+        int_tau_cos = quad(lambda theta: tau(theta,tau_max(p['c'], theta, p['phi'],sigma(th, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta1'], theta_m_value, p['theta2'])),j(p['r_s'], p['theta1'], theta, i_value), p['k']) * np.cos(theta),p['theta2'], p['theta1'])[0]
 
-        D = p['r'] * p['b'] * (integral2 - integral1)
+        # integrate σ(θ)·sinθ
+        int_sigma_sin = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta1'], theta_m_value, p['theta2']) * np.sin(theta),p['theta2'], p['theta1'])[0]
+
+        F_DP = p['b'] * ( p['r_s'] * int_tau_cos - p['r'] * int_sigma_sin )
         return D
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -91,7 +94,7 @@ def compute_t(params): #Resistive Moment on the Wheel
         integral2 = quad(lambda theta: tau(theta, tau_max(p['c'], theta, p['phi'], sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'], p['b'], p['k_phi_prime'], p['r'], n_value, p['theta_1'], theta_m_value, p['theta_2'])),
                                            j(p['r_s'], p['theta_1'], theta, i_value), p['k']), p['theta_2'], p['theta_1'])[0]
 
-        T = (p['r'] ** 2) * (integral2)
+        T = (p['r_s'] ** 2)* p['b'] * (integral2)
         return T
     except Exception as e:
         print(f"An error occurred: {e}")
