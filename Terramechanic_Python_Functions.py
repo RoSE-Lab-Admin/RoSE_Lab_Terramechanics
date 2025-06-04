@@ -49,10 +49,10 @@ def compute_w(params): #Vertical Load on the Wheel
 
     try:
         # ---  integrate σ(θ) · cosθ ---
-        integral_sigma_cos = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2']) * np.cos(th),p['theta_2'], p['theta_1'])[0]
+        integral_sigma_cos = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2']) * np.cos(theta),p['theta_2'], p['theta_1'])[0]
 
         # --- integrate τ(θ) · sinθ  ---
-        integral_tau_sin = quad(lambda theta: tau(theta,tau_max(p['c'], th, p['phi'],sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2'])),j(p['r_s'], p['theta_1'], th, i_value),p['k']) * np.sin(theta),p['theta_2'], p['theta_1'])[0]
+        integral_tau_sin = quad(lambda theta: tau(theta,tau_max(p['c'], theta, p['phi'],sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2'])),j(p['r_s'], p['theta_1'], theta, i_value),p['k']) * np.sin(theta),p['theta_2'], p['theta_1'])[0]
 
         # --- Assemble F_W ---
         W = p['b'] * (p['r'] * integral_sigma_cos + p['r_s'] * integral_tau_sin)
@@ -71,12 +71,12 @@ def compute_d(params): #Drawbar Pull Force
 
     try:
         # integrate τ(θ)·cosθ
-        int_tau_cos = quad(lambda theta: tau(theta,tau_max(p['c'], theta, p['phi'],sigma(th, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta1'], theta_m_value, p['theta2'])),j(p['r_s'], p['theta1'], theta, i_value), p['k']) * np.cos(theta),p['theta2'], p['theta1'])[0]
+        int_tau_cos = quad(lambda theta: tau(theta,tau_max(p['c'], theta, p['phi'],sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2'])),j(p['r_s'], p['theta_1'], theta, i_value), p['k']) * np.cos(theta),p['theta_2'], p['theta_1'])[0]
 
         # integrate σ(θ)·sinθ
-        int_sigma_sin = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta1'], theta_m_value, p['theta2']) * np.sin(theta),p['theta2'], p['theta1'])[0]
+        int_sigma_sin = quad(lambda theta: sigma(theta, p['c'], p['k_c_prime'], p['rho'], p['g'],p['b'], p['k_phi_prime'], p['r'],n_value, p['theta_1'], theta_m_value, p['theta_2']) * np.sin(theta),p['theta_2'], p['theta_1'])[0]
 
-        F_DP = p['b'] * ( p['r_s'] * int_tau_cos - p['r'] * int_sigma_sin )
+        D = p['b'] * ( p['r_s'] * int_tau_cos - p['r'] * int_sigma_sin )
         return D
     except Exception as e:
         print(f"An error occurred: {e}")
