@@ -1,5 +1,6 @@
 # Update RoverSimulator to support individual wheel running states from their own parameter classes
 
+import numpy as np
 from .Rover_Class import Rover
 
 class RoverSimulator:
