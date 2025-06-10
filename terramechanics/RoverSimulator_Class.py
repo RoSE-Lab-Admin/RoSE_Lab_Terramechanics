@@ -2,6 +2,8 @@
 
 import numpy as np
 from .Rover_Class import Rover
+from .Wheel_Class import Wheel
+from .Parameter_Manager_Split import RunningStateParameters
 
 class RoverSimulator:
     def __init__(self, mass, length, width, height, soil_params, wheel_params):
