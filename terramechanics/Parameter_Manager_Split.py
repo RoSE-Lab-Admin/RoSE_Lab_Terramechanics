@@ -6,13 +6,13 @@ class SoilParameters:
             'a1': {'value': 0.42, 'bounds': (0.0, 1), 'name': 'Model Parameter a1', 'unit': 'unitless'},
             'a2': {'value': 0.38, 'bounds': (0.0, 1), 'name': 'Model Parameter a2', 'unit': 'unitless'},
             'n0': {'value': 1.23, 'bounds': (1.0, 2.0), 'name': 'Nominal Sinkage Exponent', 'unit': 'unitless'},
-            'n1': {'value': 0.0045, 'bounds': (-1, 1), 'name': 'Slip-Sinkage Exponent', 'unit': 'unitless'},
+            'n1': {'value': 0.0045, 'bounds': (-0.5, 0.5), 'name': 'Slip-Sinkage Exponent', 'unit': 'unitless'},
             'c': {'value': 0.68, 'bounds': (0, 1), 'name': 'Cohesion', 'unit': 'kPa'},
             'k_c_prime': {'value': 100.41, 'bounds': (0, 1000), 'name': "Bekker Coefficient of Cohesion'", 'unit': 'kPa/m^n'},
-            'rho': {'value': 1257.65, 'bounds': (800, 2400), 'name': 'Soil Mass Density', 'unit': 'kg/m^3'},
+            'rho': {'value': 1257.65, 'bounds': (800, 2000), 'name': 'Soil Mass Density', 'unit': 'kg/m^3'},
             'k_phi_prime': {'value': 945.85, 'bounds': (0, 3000), 'name': "Bekker Coefficient of Density'", 'unit': 'kPa/m^n-1'},
-            'phi': {'value': 0.59969513, 'bounds': (0, 1.5708), 'name': 'Internal Friction Angle', 'unit': 'rad'},
-            'k': {'value': 0.2, 'bounds': (0.0, 1), 'name': 'Shear Deformation Modulus', 'unit': 'm'},
+            'phi': {'value': 0.59969513, 'bounds': (0.1, 1.2), 'name': 'Internal Friction Angle', 'unit': 'rad'},
+            'k': {'value': 0.2, 'bounds': (0.01, 0.5), 'name': 'Shear Deformation Modulus', 'unit': 'm'},
         }
 
     def get_all_params(self):
