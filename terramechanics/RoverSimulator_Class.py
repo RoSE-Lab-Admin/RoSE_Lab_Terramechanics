@@ -1,5 +1,7 @@
 # Update RoverSimulator to support individual wheel running states from their own parameter classes
 
+from .Rover_Class import Rover
+
 class RoverSimulator:
     def __init__(self, mass, length, width, height, soil_params, wheel_params):
         self.mass = mass  # Total rover mass (kg)
