@@ -32,6 +32,23 @@ def _tau(theta, *, p_const, n_val, theta_m):
 # ------------------------------------------------------------------
 #  Forces & moment
 # ------------------------------------------------------------------
+def calculate_r_s(r, h): #Effective Shearing Radius
+  return r+0.5*h
+
+def calculate_i(v, r_s, omega): #Wheel Slip
+    if v < r_s * omega:
+        return 1 - (v / (r_s * omega))
+    elif v > r_s * omega:
+        return (r_s * omega / v) - 1
+    else:
+        return 0
+
+def calculate_theta_m(a1, a2, i, theta_1): #Angle of Maximum Stress
+    return (a1 + a2 * i) * theta_1
+
+def calculate_n(n0, n1, i): #Sinkage Exponent
+    return n0 + n1 * abs(i)
+
 def _precompute_constants(params):
     p = params.get_all_params().copy()
     p['r_s']      = calculate_r_s(p['r'], p['h'])
