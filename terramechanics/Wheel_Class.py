@@ -1,3 +1,9 @@
+from .Terramechanic_Python_Functions import (
+    compute_vertical_load,
+    compute_drawbar_pull,
+    compute_resustive_moment
+)
+
 class Wheel:
     def __init__(self, soil_params, wheel_params, running_state):
         self.soil_params = soil_params
@@ -20,9 +26,9 @@ class Wheel:
                 return self.full_params
 
         wrapped_params = Wrapper(self.get_combined_params())
-        F_W = compute_w(wrapped_params)
-        F_DP = compute_d(wrapped_params)
-        T = compute_t(wrapped_params)
+        F_W = compute_vertical_load(wrapped_params)
+        F_DP = compute_drawbar_pull(wrapped_params)
+        T = compute_resustive_moment(wrapped_params)
         return {
             'F_W': F_W,
             'F_DP': F_DP,
